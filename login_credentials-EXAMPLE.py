@@ -1,3 +1,4 @@
+#EJEMPLO de cómo es el archivo "login_credentials.py"
 #Archivo para almacenar las credenciales de login de los usuarios que controla el bot.
 #Recuerda añadir este archivo al .gitignore si quieres evitar la sincronización
 
