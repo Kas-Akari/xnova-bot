@@ -1,5 +1,6 @@
 __pycache__/
 .github/instructions/
+.vscode/
 login_credentials.py
 comando_subir_a_rpi.txt
 instrucciones sobre crontab.txt

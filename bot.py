@@ -45,7 +45,7 @@ if __name__ == "__main__":
         research_manager = ResearchManager()
         defenses_manager = DefensesManager()
         shipyard_manager = ShipyardManager()
-        fleet_manager = FleetManager()
+        fleet_manager = FleetManager(username)
         strategy_basic = StrategyBasic()
 
         update_info(bot.session, resources_manager, buildings_resources_manager, facilities_manager, research_manager, defenses_manager, shipyard_manager)

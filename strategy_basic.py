@@ -8,7 +8,7 @@
 # Edificios:                                                    #
 #       - Mina de metal:                18                      #
 #       - Mina de cristal:              16                      #
-#       - Sintetizador de deuterio:     10                      #
+#       - Sintetizador de deuterio:     12                      #
 #       - Planta de energía solar:      ?                       #
 #       - Planta de fusión:             4                       #
 #       - Almacén de metal:             ?                       #
@@ -367,8 +367,22 @@ class StrategyBasic(Strategy, StrategyAbstract):
             target = shipyard
             self._build_target(target, buildings_resources_manager, resources_manager, session)
             return False
+        
+        #PRIORIDAD Nº17: Aumenta la producción de recursos.    
+        if metal_mine is not None and metal_mine['level'] < 18:
+            target = metal_mine
+            self._build_target(target, buildings_resources_manager, resources_manager, session)
+            return False
+        if crystal_mine is not None and crystal_mine['level'] < 16:
+            target = crystal_mine
+            self._build_target(target, buildings_resources_manager, resources_manager, session)
+            return False
+        if deuterium_synthesizer is not None and deuterium_synthesizer['level'] < 12:
+            target = deuterium_synthesizer
+            self._build_target(target, buildings_resources_manager, resources_manager, session)
+            return False
 
-        #PRIORIDAD Nº17: Investiga lo necesario para desbloquear los cruceros, los cañones gauss y los cañones iónicos.
+        #PRIORIDAD Nº18: Investiga lo necesario para desbloquear los cruceros, los cañones gauss y los cañones iónicos.
         if researches is not None:
             if impulse_drive is not None and impulse_drive['level'] < 4:
                 target = impulse_drive
@@ -382,18 +396,8 @@ class StrategyBasic(Strategy, StrategyAbstract):
                 target = ion_technology
                 self._research_technology(target, resources_manager, buildings_resources_manager, research_manager, session)
                 return False
-
-        #PRIORIDAD Nº18: Aumenta la producción de recursos.    
-        if metal_mine is not None and metal_mine['level'] < 18:
-            target = metal_mine
-            self._build_target(target, buildings_resources_manager, resources_manager, session)
-            return False
-        if crystal_mine is not None and crystal_mine['level'] < 16:
-            target = crystal_mine
-            self._build_target(target, buildings_resources_manager, resources_manager, session)
-            return False
         
-        #PASO 2: Aumenta la cantidad de defensas
+        #PRIORIDAD Nº19: Aumenta la cantidad de defensas
         if shipyard is not None and shipyard['level'] >= 6:
             if heavy_lasers is not None and heavy_lasers['cantidad'] < 20:
                 target = heavy_lasers

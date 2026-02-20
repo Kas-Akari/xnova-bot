@@ -6,10 +6,10 @@ from bs4 import BeautifulSoup   #Para analizar paginas HTML
 from constants import BASE_URL
 
 class FleetManager():
-    def __init__(self) -> None:
+    def __init__(self, username) -> None:
         self.shipsAvailable = []
-        self.known_planets_path = os.path.join(os.path.dirname(__file__), 'known_planets.json')
-        self.memory_path = os.path.join(os.path.dirname(__file__), 'bot_memory.json')
+        self.known_planets_path = os.path.join(os.path.dirname(__file__),f'known_planets_{username}.json')
+        self.memory_path = os.path.join(os.path.dirname(__file__),f'bot_memory_{username}.json')
         self.known_planets = self.__load_known_planets()
         self.memory = self.__load_memory()
     
