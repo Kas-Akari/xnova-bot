@@ -11,7 +11,7 @@ class ShipyardManager():
         self.date_to_end_construction = None
         self.building_being_constructed = None
 
-    def checkShipyard(self, session) -> None:
+    def updateShipyardInfo(self, session) -> None:
         self.ships = {}         #Limpia la lista de naves diponibles para construir en el hangar
 
         shipyard_url = BASE_URL + 'game.php?page=shipyard'

@@ -16,7 +16,7 @@ class ResourcesManager():
         self.crystal_production_h = 0
         self.deuterium_production_h = 0
 
-    def fetchResources(self, session) -> bool:
+    def updateResourcesInfo(self, session) -> bool:
         #Ve a la página de opciones de recursos
         resources_url = BASE_URL + 'game.php?page=resourceSettings'
         response = session.post(resources_url, data="")
@@ -40,13 +40,6 @@ class ResourcesManager():
             self.deuterium           = int(resource_values[2].get_text(strip=True).replace('.',''))
             self.dark_matter         = int(resource_values[3].get_text(strip=True).replace('.',''))
             self.available_energy    = int(resource_values[4].get_text(strip=True).split('/')[0])
-
-            # Muestra los resultados por pantalla
-            #print(f"Metal: {self.metal}")
-            #print(f"Cristal: {self.crystal}")
-            #print(f"Deuterio: {self.deuterium}")
-            #print(f"Materia Oscura: {self.dark_matter}")
-            #print(f"Energía disponible: {self.available_energy}\n")
             
             ##############################################################################################################
             #Obten la capacidad de almacenamiento:
@@ -61,20 +54,12 @@ class ResourcesManager():
                     self.metal_capacity = self._parse_capacity(tds[0].get_text(strip=True))
                     self.crystal_capacity = self._parse_capacity(tds[1].get_text(strip=True))
                     self.deuterium_capacity = self._parse_capacity(tds[2].get_text(strip=True))
-                    #print("Capacidad Metal:", self.metal_capacity)
-                    #print("Capacidad Cristal:", self.crystal_capacity)
-                    #print("Capacidad Deuterio:", self.deuterium_capacity)
-                    #print("")
                 if th and th.get_text(strip=True) == "Total por hora:":                  #Si encuentras la que pone "Total por hora"
                     tds = row.find_all('td')                                            #Los tds que acompañan al th contienen las producciones por hora
                     # Ahora tds[0] es metal, tds[1] es cristal, tds[2] es deuterio, tds[3] es energía
                     self.metal_production_h = int(tds[0].get_text(strip=True).replace('.',''))
                     self.crystal_production_h = int(tds[1].get_text(strip=True).replace('.',''))
                     self.deuterium_production_h = int(tds[2].get_text(strip=True).replace('.',''))
-                    #print("Producción Metal/h:", self.metal_production_h)
-                    #print("Producción Cristal/h:", self.crystal_production_h)
-                    #print("Producción Deuterio/h:", self.deuterium_production_h)
-                    #print("")
             return True
         else:
             print(f"No se encontro la tabla con los recursos")

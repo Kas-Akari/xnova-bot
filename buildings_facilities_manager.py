@@ -12,7 +12,7 @@ class FacilitiesManager():
         self.date_to_end_construction = None
         self.building_being_constructed = None
 
-    def checkFacilities(self, session) -> None:
+    def updateFacilitiesInfo(self, session) -> None:
         self.facilities = {}         #Limpia la lista de edificios
 
         facilities_url = BASE_URL + 'game.php?page=station'

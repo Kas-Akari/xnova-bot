@@ -12,7 +12,7 @@ class BuildingsResourcesManager():
         self.date_to_end_construction = None
         self.building_being_constructed = None
 
-    def checkResourcesBuildings(self, session) -> None:
+    def updateResourcesBuildingsInfo(self, session) -> None:
         self.buildings = {}         #Limpia la lista de edificios
 
         resources_buildings_url = BASE_URL + 'game.php?page=resources'

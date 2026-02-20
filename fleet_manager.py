@@ -1,11 +1,17 @@
 #Clase encargada de gestionar los movimientos de flotas
 import random
+import json
+import os
 from bs4 import BeautifulSoup   #Para analizar paginas HTML
 from constants import BASE_URL
 
 class FleetManager():
     def __init__(self) -> None:
         self.shipsAvailable = []
+        self.known_planets_path = os.path.join(os.path.dirname(__file__), 'known_planets.json')
+        self.memory_path = os.path.join(os.path.dirname(__file__), 'bot_memory.json')
+        self.known_planets = self.__load_known_planets()
+        self.memory = self.__load_memory()
     
     def checkAvailableShips(self, session):
         self.shipsAvailable = []         #Limpia la lista de naves
@@ -76,6 +82,15 @@ class FleetManager():
         return 0
     
     def sendRandomFleetToAttack(self, session) -> None:
+        #Selecciona un planeta válido para atacar
+        last_user = self.memory.get('last_attacked_user', None)
+        valid_planets = [p for p in self.known_planets if p['user'] != last_user]
+        if not valid_planets:
+            print("No hay planetas válidos para atacar (todos ya atacados o filtrados por 'TheBot')")
+            return
+        planet = random.choice(valid_planets)
+        
+        #1º Página de "Flota"
         post_data1 = {}
         for ship in self.shipsAvailable:
             cantidad = int(ship["cantidad"])
@@ -84,15 +99,13 @@ class FleetManager():
         print("Enviando las siguientes flotas a atacar: " + str(post_data1))
         fleet_url = BASE_URL + 'game.php?page=fleet2'       
         response = session.post(fleet_url, data=post_data1)  #Simula pulsar "Continuar" enviando el formulario
-        #print("URL tras el POST:", response.url)
-        #print("")
 
-        # Hardcodeamos las coordenadas de destino a 1:1:4
+        #2º Página de "Flota"
         post_data2 = {
             #ESTOS DATOS SON LOS IMPRESCINDIBLES PARA QUE FUNCIONE. Si no, vuelve a game,php?page=fleet1
-            "galaxy": "1",
-            "system": "1",
-            "planet": "6",
+            "galaxy": str(planet["galaxy"]),
+            "system": str(planet["system"]),
+            "planet": str(planet["planet"]),
             "planettype": "1",  # 1 = Planeta
             "speed": "10",       # 10 = 100%
             "target_mission": "0",
@@ -110,13 +123,14 @@ class FleetManager():
             #"thisplanettype": "1",
             #"colonies": "0"
         }
-        print("Atacando a: " + str(post_data2['galaxy'] + ":" + str(post_data2['system']) + ":" + str(post_data2['planet'])))
+        print(f"Atacando a: {post_data2['galaxy']}:{post_data2['system']}:{post_data2['planet']} (Propietario: {planet['user']})")
         #print("Post data de la selección de destino " + str(post_data2))
         fleet2_url = BASE_URL + 'game.php?page=fleet3'
         response = session.post(fleet2_url, data=post_data2)
         #print("URL tras el POST destino:", response.url)
         #print("")
 
+        #3º Página de "Flota"
         post_data3 = {
             #"thisresource1": "173272",
             #"thisresource2": "73312",
@@ -141,9 +155,43 @@ class FleetManager():
             "resource3": "",
             "holdingtime": "1"
         }
-
         fleet3_url = BASE_URL + 'game.php?page=fleet4'
         response = session.post(fleet3_url, data=post_data3)
         #print("URL tras el POST final:", response.url)
         print("")
+
+        #Actualiza la memoria con el último usuario atacado
+        self.memory['last_attacked_user'] = planet['user']
+        self.__save_memory()
         return
+    
+    def __load_known_planets(self):
+        #Lee el archivo de planetas conocidos y filtra los que no terminan en 'TheBot'
+        try:
+            with open(self.known_planets_path, 'r', encoding='utf-8') as f:
+                planets = json.load(f)
+        except Exception as e:
+            print(f"Error leyendo known_planets.json: {e}")
+            return []
+        filtered = [p for p in planets if not p['user'].endswith('TheBot')]
+        return filtered
+
+    def __load_memory(self):
+        #Crea el archivo si no existe, lo carga y lo devuelve
+        if not os.path.exists(self.memory_path):
+            with open(self.memory_path, 'w', encoding='utf-8') as f:
+                json.dump({}, f)
+        try:
+            with open(self.memory_path, 'r', encoding='utf-8') as f:
+                return json.load(f)
+        except Exception as e:
+            print(f"Error leyendo bot_memory.json: {e}")
+            return {}
+
+    def __save_memory(self):
+        #Guarda el diccionario que hace de memoria
+        try:
+            with open(self.memory_path, 'w', encoding='utf-8') as f:
+                json.dump(self.memory, f, indent=4)
+        except Exception as e:
+            print(f"Error guardando bot_memory.json: {e}")

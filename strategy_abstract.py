@@ -10,7 +10,7 @@ from fleet_manager import FleetManager
 
 class StrategyAbstract(ABC):
     @abstractmethod
-    def decide_and_build(self, session, resources_manager: ResourcesManager, buildings_resources_manager: BuildingsResourcesManager, facilities_manager: FacilitiesManager, research_manager: ResearchManager, defenses_manager: DefensesManager, shipyard_manager: ShipyardManager) -> None:
+    def decide_and_build(self, session, resources_manager: ResourcesManager, buildings_resources_manager: BuildingsResourcesManager, facilities_manager: FacilitiesManager, research_manager: ResearchManager, defenses_manager: DefensesManager, shipyard_manager: ShipyardManager) -> bool:
         pass
 
     @abstractmethod

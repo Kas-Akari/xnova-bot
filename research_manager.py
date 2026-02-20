@@ -12,7 +12,7 @@ class ResearchManager():
         self.date_to_end_research = None
         self.research_being_researched = None
 
-    def checkResearches(self, session) -> None:
+    def updateResearchesInfo(self, session) -> None:
         self.researches = {}         #Limpia la lista de investigaciones
 
         researches_url = BASE_URL + 'game.php?page=research'

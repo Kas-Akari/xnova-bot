@@ -11,7 +11,7 @@ class DefensesManager():
         self.date_to_end_construction = None
         self.building_being_constructed = None
 
-    def checkDefenses(self, session) -> None:
+    def updateDefensesInfo(self, session) -> None:
         self.defenses = {}         #Limpia la lista de defensas
 
         defenses_url = BASE_URL + 'game.php?page=defense'

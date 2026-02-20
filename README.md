@@ -1,4 +1,6 @@
 # xnova-bot
+This project is very much a WIP.
+
 Connects to an instance of XG Proyect as a user and serves as an AI player. The source code is published here so my friends (who also play on my private XG Proyect server) can see how it works, make suggestions, etc.
 
 The code of my version/fork of the XG Proyect is here https://github.com/Kas-Akari/XG-Proyect-v3.x.x
