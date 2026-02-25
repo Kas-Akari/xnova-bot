@@ -103,7 +103,7 @@ class Strategy():
         elif (resources_manager.get_deuterium_capacity() <= target['deuterium_price']):
             print("Tengo " + str(resources_manager.get_deuterium_capacity()) + " de capacidad de deuterio, y necesito " + str(target['deuterium_price']) + " para construir " + str(target['name']) + ".\n")
             print("Cambio el objetivo a construir un contenedor de deuterio.\n")
-            self._build_target(buildings_resources_manager.getDeuteriumContainer(), buildings_resources_manager, resources_manager, session)
+            self._build_target(buildings_resources_manager.getDeuteriumTank(), buildings_resources_manager, resources_manager, session)
         else:
             print("No hay recursos suficientes para " + target['name'] +".")
             print("Tengo " + str(resources_manager.get_metal()) + " de metal, y necesito " + str(target['metal_price']) +
