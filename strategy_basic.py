@@ -17,7 +17,7 @@
 # Instalaciones:                                                #
 #       - Fábrica de robots:            6                       #
 #       - Hangar:                       7                       #
-#       - Laboratorio de investigación: 6                       #
+#       - Laboratorio de investigación: 7                       #
 #       - Depósito de la alianza:       0                       #
 #       - Silo:                         0                       #
 # Investigaciones:                                              #
@@ -34,7 +34,9 @@
 # Defensas:                                                     #
 #       - Lanzamisiles:                 20                      #
 #       - Láser pequeño:                10                      #
-#       - Láser grande:                 5                       #
+#       - Láser grande:                 20                      #
+#       - Cañon Gauss:                  5                       #
+#       - Cañon iónico:                 5                       #
 #       - Cúpula pequeña de protección: 1                       #
 # Naves:                                                        #
 #       - Nave pequeña de carga:        0                       #
@@ -423,7 +425,13 @@ class StrategyBasic(Strategy, StrategyAbstract):
                 if end_date:
                     print("Fecha de finalización de la cola del hangar " + end_date.strftime('%Y-%m-%d %H:%M:%S'))
                 return False
-            
+        
+        #PRIORIDAD Nº20: Deja el laboratorio al menos al 7 para poder investigar la tecnología de hiperespacio y el propulsor hiperespacial
+        if research_lab is not None and research_lab['level'] < 7:
+            target = research_lab
+            self._build_target(target, buildings_resources_manager, resources_manager, session)
+            return False
+        
         print(">>>> Estrategia básica completada <<<<")
         return True
 

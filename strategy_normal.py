@@ -85,6 +85,37 @@ class StrategyNormal(Strategy, StrategyAbstract):
                     print("Fecha de finalización de la cola del hangar " + end_date.strftime('%Y-%m-%d %H:%M:%S'))
                 return False
         
+        if researches is not None:
+            if energy_technology is not None and energy_technology['level'] < 8:
+                target = energy_technology
+                self._research_technology(target, resources_manager, buildings_resources_manager, research_manager, session)
+                return False
+            if laser_technology is not None and laser_technology['level'] < 10:
+                target = laser_technology
+                self._research_technology(target, resources_manager, buildings_resources_manager, research_manager, session)
+                return False
+            if ion_technology is not None and ion_technology['level'] < 5:
+                target = ion_technology
+                self._research_technology(target, resources_manager, buildings_resources_manager, research_manager, session)
+                return False
+            #Tecnología de plasma desbloqueada (Requiere: Lab 5, Energía 8, Láser 10, Ion 5)
+            if plasma_technology is not None and plasma_technology['level'] < 5:
+                target = plasma_technology
+                self._research_technology(target, resources_manager, buildings_resources_manager, research_manager, session)
+                return False
+            if weapons_technology is not None and  weapons_technology['level'] < 7:
+                target = weapons_technology
+                self._research_technology(target, resources_manager, buildings_resources_manager, research_manager, session)
+                return False
+            if shielding_technology is not None and shielding_technology['level'] < 7:
+                target = shielding_technology
+                self._research_technology(target, resources_manager, buildings_resources_manager, research_manager, session)
+                return False
+            if armour_technology is not None and armour_technology['level'] < 7:
+                target = armour_technology
+                self._research_technology(target, resources_manager, buildings_resources_manager, research_manager, session)
+                return False
+
         print(">>>> Estrategia normal completada <<<<")
         return True
         
@@ -101,7 +132,7 @@ class StrategyNormal(Strategy, StrategyAbstract):
         print("")
         attack_dice = int(random.random() * 100)
         if attack_dice > 100 - probability_of_attack:
-            if (fleet_manager.getCruisersQuantity() > minimum_cruisers_to_attack):
+            if (fleet_manager.getCruisersQuantity() >= minimum_cruisers_to_attack):
                 fleet_manager.sendRandomFleetToAttack(session)
             else:
                 print("Intenté atacar, pero sólo tengo " + str(fleet_manager.getCruisersQuantity()) + " cruceros, y necesito por lo menos " + str(minimum_cruisers_to_attack) + " para atacar")
