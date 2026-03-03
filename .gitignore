@@ -1,6 +1,11 @@
 .__pycache__/
 .github/instructions/
 .vscode/
+.auth/__pycache__/
+.config/__pycache__/
+.managers/__pycache__/
+.strategies/__pycache__/
+.ui/__pycache__/
 auth/login_credentials.py
 comando_subir_a_rpi.txt
 instrucciones sobre crontab.txt
