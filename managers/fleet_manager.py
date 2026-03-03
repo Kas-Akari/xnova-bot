@@ -7,9 +7,10 @@ from constants import BASE_URL
 
 class FleetManager():
     def __init__(self, username) -> None:
+        config_dir = os.path.join(os.path.dirname(__file__), '..', 'config')
         self.shipsAvailable = []
-        self.known_planets_path = os.path.join(os.path.dirname(__file__),f'known_planets_{username}.json')
-        self.memory_path = os.path.join(os.path.dirname(__file__),f'bot_memory_{username}.json')
+        self.known_planets_path = os.path.join(config_dir, f'known_planets_{username}.json')
+        self.memory_path = os.path.join(config_dir, f'bot_memory_{username}.json')
         self.known_planets = self.__load_known_planets()
         self.memory = self.__load_memory()
     
@@ -167,6 +168,9 @@ class FleetManager():
     
     def __load_known_planets(self):
         #Lee el archivo de planetas conocidos y filtra los que no terminan en 'TheBot'
+        if not os.path.exists(self.known_planets_path):
+            with open(self.known_planets_path, 'w', encoding='utf-8') as f:
+                json.dump([], f)
         try:
             with open(self.known_planets_path, 'r', encoding='utf-8') as f:
                 planets = json.load(f)

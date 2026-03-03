@@ -47,15 +47,15 @@
 #       - Sonda de espionaje:           0                       #
 #       - Satélite solar:               0                       #
 #################################################################
-from strategy import Strategy
-from strategy_abstract import StrategyAbstract
-from resources_manager import ResourcesManager
-from buildings_resources_manager import BuildingsResourcesManager
-from buildings_facilities_manager import FacilitiesManager
-from defenses_manager import DefensesManager
-from research_manager import ResearchManager
-from shipyard_manager import ShipyardManager
-from fleet_manager import FleetManager
+from .strategy import Strategy
+from .strategy_abstract import StrategyAbstract
+from managers.resources_manager import ResourcesManager
+from managers.buildings_resources_manager import BuildingsResourcesManager
+from managers.buildings_facilities_manager import FacilitiesManager
+from managers.defenses_manager import DefensesManager
+from managers.research_manager import ResearchManager
+from managers.shipyard_manager import ShipyardManager
+from managers.fleet_manager import FleetManager
 from constants import BASE_URL
 
 class StrategyBasic(Strategy, StrategyAbstract):

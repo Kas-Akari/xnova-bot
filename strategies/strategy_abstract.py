@@ -1,12 +1,12 @@
 #Clase abstracta que dicta las diferentes funciones que deben implementar cada estrategia.
 from abc import ABC, abstractmethod
-from resources_manager import ResourcesManager
-from buildings_resources_manager import BuildingsResourcesManager
-from buildings_facilities_manager import FacilitiesManager
-from research_manager import ResearchManager
-from defenses_manager import DefensesManager
-from shipyard_manager import ShipyardManager
-from fleet_manager import FleetManager
+from managers.resources_manager import ResourcesManager
+from managers.buildings_resources_manager import BuildingsResourcesManager
+from managers.buildings_facilities_manager import FacilitiesManager
+from managers.research_manager import ResearchManager
+from managers.defenses_manager import DefensesManager
+from managers.shipyard_manager import ShipyardManager
+from managers.fleet_manager import FleetManager
 
 class StrategyAbstract(ABC):
     @abstractmethod

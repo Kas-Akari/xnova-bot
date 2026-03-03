@@ -5,5 +5,14 @@ USER_CONFIG = {
     },
     'glados': {
         'strategy': 'aggressive'
+    },
+    'atlas': {
+        'strategy': 'normal'
+    },
+    'pbody': {
+        'strategy': 'normal'
+    },
+    'unjusthope': {
+        'strategy': 'normal'
     }
 }

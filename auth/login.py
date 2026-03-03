@@ -1,6 +1,6 @@
 import requests                 #Librera para mandar peticiones HTTP
 from constants import BASE_URL
-from login_credentials import LOGIN_CREDENTIALS
+from .login_credentials import LOGIN_CREDENTIALS
 
 def login(session, user_key: str) -> requests.Response | None:
     login_data = LOGIN_CREDENTIALS.get(user_key)    #Obten los datos de login según el usuario

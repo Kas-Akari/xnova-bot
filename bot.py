@@ -2,20 +2,20 @@
 import requests #Para mandar/recibir peticiones HTTP
 import datetime
 import sys      #Para procesar los argumentos de entrada
-from bot_config import USER_CONFIG
+from config.bot_config import USER_CONFIG
 from update_info import update_info
-from display_info import display_info
-from strategy_selector import get_strategy_instance
-from login import login
-from resources_manager import ResourcesManager
-from buildings_resources_manager import BuildingsResourcesManager
-from strategy_basic import StrategyBasic
-from strategy_long_term import StrategyLongTerm
-from buildings_facilities_manager import FacilitiesManager
-from defenses_manager import DefensesManager
-from research_manager import ResearchManager
-from shipyard_manager import ShipyardManager
-from fleet_manager import FleetManager
+from ui.display_info import display_info
+from auth.login import login
+from managers.resources_manager import ResourcesManager
+from managers.buildings_resources_manager import BuildingsResourcesManager
+from managers.buildings_facilities_manager import FacilitiesManager
+from managers.defenses_manager import DefensesManager
+from managers.research_manager import ResearchManager
+from managers.shipyard_manager import ShipyardManager
+from managers.fleet_manager import FleetManager
+from strategies.strategy_selector import get_strategy_instance
+from strategies.strategy_basic import StrategyBasic
+from strategies.strategy_long_term import StrategyLongTerm
 
 class Bot:
     def __init__(self):
