@@ -14,5 +14,5 @@ class StrategyAbstract(ABC):
         pass
 
     @abstractmethod
-    def decide_and_attack(self, session, fleet_manager: FleetManager):
+    def decide_and_attack(self, session, fleet_manager: FleetManager) -> None:
         pass

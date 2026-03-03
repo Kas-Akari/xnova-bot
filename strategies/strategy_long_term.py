@@ -65,5 +65,5 @@ class StrategyLongTerm(Strategy, StrategyAbstract):
         self._build_target(target, buildings_resources_manager, resources_manager, session)
         return True
 
-    def decide_and_attack(self, session, fleet_manager: FleetManager):
+    def decide_and_attack(self, session, fleet_manager: FleetManager) -> None:
         pass

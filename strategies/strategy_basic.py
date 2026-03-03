@@ -435,5 +435,5 @@ class StrategyBasic(Strategy, StrategyAbstract):
         print(">>>> Estrategia básica completada <<<<")
         return True
 
-    def decide_and_attack(self, session, fleet_manager: FleetManager):
+    def decide_and_attack(self, session, fleet_manager: FleetManager) -> None:
         pass

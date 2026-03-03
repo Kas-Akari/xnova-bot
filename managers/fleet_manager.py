@@ -14,7 +14,7 @@ class FleetManager():
         self.known_planets = self.__load_known_planets()
         self.memory = self.__load_memory()
     
-    def checkAvailableShips(self, session):
+    def checkAvailableShips(self, session) -> None:
         self.shipsAvailable = []         #Limpia la lista de naves
 
         fleet_url = BASE_URL + 'game.php?page=fleet1'
@@ -166,7 +166,7 @@ class FleetManager():
         self.__save_memory()
         return
     
-    def __load_known_planets(self):
+    def __load_known_planets(self) -> list[dict]:
         #Lee el archivo de planetas conocidos y filtra los que no terminan en 'TheBot'
         if not os.path.exists(self.known_planets_path):
             with open(self.known_planets_path, 'w', encoding='utf-8') as f:
@@ -180,7 +180,7 @@ class FleetManager():
         filtered = [p for p in planets if not p['user'].endswith('TheBot')]
         return filtered
 
-    def __load_memory(self):
+    def __load_memory(self) -> dict:
         #Crea el archivo si no existe, lo carga y lo devuelve
         if not os.path.exists(self.memory_path):
             with open(self.memory_path, 'w', encoding='utf-8') as f:
@@ -192,7 +192,7 @@ class FleetManager():
             print(f"Error leyendo bot_memory.json: {e}")
             return {}
 
-    def __save_memory(self):
+    def __save_memory(self) -> None:
         #Guarda el diccionario que hace de memoria
         try:
             with open(self.memory_path, 'w', encoding='utf-8') as f:

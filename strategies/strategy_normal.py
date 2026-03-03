@@ -120,7 +120,7 @@ class StrategyNormal(Strategy, StrategyAbstract):
         return True
         
 
-    def decide_and_attack(self, session, fleet_manager: FleetManager):
+    def decide_and_attack(self, session, fleet_manager: FleetManager) -> None:
         minimum_cruisers_to_attack = 6
         probability_of_attack = 2   #%
 

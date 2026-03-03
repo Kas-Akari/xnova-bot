@@ -118,7 +118,7 @@ class StrategyAggressive(Strategy, StrategyAbstract):
         print(">>>> Estrategia agresiva completada <<<<")
         return True
 
-    def decide_and_attack(self, session, fleet_manager: FleetManager):
+    def decide_and_attack(self, session, fleet_manager: FleetManager) -> None:
         minimum_cruisers_to_attack = 10
         probability_of_attack = 9 #%
 
