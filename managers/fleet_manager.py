@@ -99,7 +99,7 @@ class FleetManager():
             post_data1[ship["input_name"]] = str(cantidad_enviar)
         print("Enviando las siguientes flotas a atacar: " + str(post_data1))
         fleet_url = BASE_URL + 'game.php?page=fleet2'       
-        response = session.post(fleet_url, data=post_data1)  #Simula pulsar "Continuar" enviando el formulario
+        response = session.post(fleet_url, data=post_data1)  #Equivalente a pulsar "Continuar" para enviar el formulario
 
         #2º Página de "Flota"
         post_data2 = {
@@ -125,11 +125,8 @@ class FleetManager():
             #"colonies": "0"
         }
         print(f"Atacando a: {post_data2['galaxy']}:{post_data2['system']}:{post_data2['planet']} (Propietario: {planet['user']})")
-        #print("Post data de la selección de destino " + str(post_data2))
         fleet2_url = BASE_URL + 'game.php?page=fleet3'
         response = session.post(fleet2_url, data=post_data2)
-        #print("URL tras el POST destino:", response.url)
-        #print("")
 
         #3º Página de "Flota"
         post_data3 = {
@@ -146,10 +143,10 @@ class FleetManager():
             #"planettype": "1",
             #"speed": "10",
             #"speedfactor": "1",
-            #"consumption205": "75",   # Ajusta según la nave seleccionada
-            #"speed205": "14000",      # Ajusta según la nave seleccionada
-            #"capacity205": "100",     # Ajusta según la nave seleccionada
-            #"ship205": "1",           # Ajusta según la nave seleccionada y cantidad
+            #"consumption205": "75",
+            #"speed205": "14000",
+            #"capacity205": "100",
+            #"ship205": "1",
             "mission": "1",           # 1 = Atacar
             "resource1": "",
             "resource2": "",
@@ -158,7 +155,6 @@ class FleetManager():
         }
         fleet3_url = BASE_URL + 'game.php?page=fleet4'
         response = session.post(fleet3_url, data=post_data3)
-        #print("URL tras el POST final:", response.url)
         print("")
 
         #Actualiza la memoria con el último usuario atacado
