@@ -10,7 +10,7 @@
 #       - Mina de cristal:              16                      #
 #       - Sintetizador de deuterio:     12                      #
 #       - Planta de energía solar:      ?                       #
-#       - Planta de fusión:             4                       #
+#       - Planta de fusión:             5                       #
 #       - Almacén de metal:             ?                       #
 #       - Almacén de cristal:           ?                       #
 #       - Contenedor de deuterio:       ?                       #
@@ -71,6 +71,7 @@ class StrategyBasic(Strategy, StrategyAbstract):
         robot_factory = facilities_manager.getRoboticsFactory()
         research_lab= facilities_manager.getResearchLab()
         shipyard = facilities_manager.getShipyard()
+        silo =facilities_manager.getSilo()
         
         #INFO DE INVESTIGACIONES:
         researches = research_manager.getResearches()
@@ -98,6 +99,7 @@ class StrategyBasic(Strategy, StrategyAbstract):
         small_shield_dome = defenses_manager.getSmallShieldDome()
         gauss_cannons = defenses_manager.getGaussCannons()
         ion_cannons = defenses_manager.getIonCannons()
+        antiballistic_missiles = defenses_manager.getAntiBallisticMissiles()
 
         #RECUPERA INFO NAVES:
         light_fighters = shipyard_manager.getLightFighters()
@@ -120,31 +122,27 @@ class StrategyBasic(Strategy, StrategyAbstract):
             return False
         
 
-        #PRIORIDAD Nº1: Si no tienes energía, construye una planta de energía solar si puedes.
+        #PRIORIDAD Nº1: Si no tienes energía, construye una planta de energía solar
         if resources_manager.get_available_energy() <= 0:
             target = solar_plant
             self._build_target(target, buildings_resources_manager, resources_manager, session)
             return False
         
-        #PRIORIDAD Nº2: Si no tienes la mina de metal al menos a nivel 5, súbela
-        if metal_mine is not None and metal_mine['level'] < 5:
+        #PRIORIDAD Nº2: Subir minas de metal, cristal y deuterio
+        if metal_mine is not None and metal_mine['level'] < 8:
             target = metal_mine
             self._build_target(target, buildings_resources_manager, resources_manager, session)
             return False
-            
-        #PRIORIDAD Nº3: Si no tienes la mina de cristal al menos a nivel 2, súbela
-        if crystal_mine is not None and crystal_mine['level'] < 2:
+        if crystal_mine is not None and crystal_mine['level'] < 5:
             target = crystal_mine
             self._build_target(target, buildings_resources_manager, resources_manager, session)
             return False
-
-        #PRIORIDAD Nº4: Si no tienes el sintetizador de deuterio al menos al nivel 3, súbelo
         if deuterium_synthesizer is not None and deuterium_synthesizer['level'] < 3:
             target = deuterium_synthesizer
             self._build_target(target, buildings_resources_manager, resources_manager, session)
             return False
         
-        #PRIORIDAD Nº5: Construir defensas, para ello subir la fábrica de robots para poder construir luego el hangar.
+        #PRIORIDAD Nº3: Construir defensas, para ello sube la fábrica de robots para poder construir luego el hangar y así poder construir lanzamisiles
         if robot_factory is not None and robot_factory['level'] < 2:
             target = robot_factory
             self._build_target(target, buildings_resources_manager, resources_manager, session)
@@ -163,12 +161,12 @@ class StrategyBasic(Strategy, StrategyAbstract):
                     print("Fecha de finalización de la cola del hangar " + end_date.strftime('%Y-%m-%d %H:%M:%S'))
                 return False
 
-        #PRIORIDAD Nº6: Boostear la producción de recursos
-        if metal_mine is not None and metal_mine['level'] < 14:
+        #PRIORIDAD Nº4: Boostear la producción de recursos subiendo aún más las minas
+        if metal_mine is not None and metal_mine['level'] < 15:
             target = metal_mine
             self._build_target(target, buildings_resources_manager, resources_manager, session)
             return False
-        if crystal_mine is not None and crystal_mine['level'] < 12:
+        if crystal_mine is not None and crystal_mine['level'] < 13:
             target = crystal_mine
             self._build_target(target, buildings_resources_manager, resources_manager, session)
             return False
@@ -177,7 +175,7 @@ class StrategyBasic(Strategy, StrategyAbstract):
             self._build_target(target, buildings_resources_manager, resources_manager, session)
             return False
 
-        #PRIORIDAD Nº7: Boostear la velocidad de construcción de naves, edificios e investigaciones
+        #PRIORIDAD Nº5: Boostear la velocidad de construcción de naves, edificios e investigaciones
         #Primero sube el hangar para boostear la producción de defensas y luego primera etapa de subir el laboratorio de investigación:
         if shipyard is not None and shipyard['level'] < 4:
             if defenses_manager.isConstructionInProgress() is True:
@@ -198,7 +196,7 @@ class StrategyBasic(Strategy, StrategyAbstract):
             self._build_target(target, buildings_resources_manager, resources_manager, session)
             return False
         
-        #PRIORIDAD Nº8: Subir tecnologías
+        #PRIORIDAD Nº6: Subir tecnologías
         if researches is not None:
             if energy_technology is not None and energy_technology['level'] < 2:
                 target = energy_technology
@@ -221,7 +219,7 @@ class StrategyBasic(Strategy, StrategyAbstract):
                 self._research_technology(target, resources_manager, buildings_resources_manager, research_manager, session)
                 return False
 
-        #PRIORIDAD Nº9: Boostear puntos con cosas que realmente no vas a usar a priori
+        #PRIORIDAD Nº7: Boostear puntos con cosas que realmente no vas a usar a priori
             if combustion_drive is not None and combustion_drive['level'] < 2:
                 target = combustion_drive
                 self._research_technology(target, resources_manager, buildings_resources_manager, research_manager, session)
@@ -235,7 +233,7 @@ class StrategyBasic(Strategy, StrategyAbstract):
             self._build_target(target, buildings_resources_manager, resources_manager, session)
             return False
 
-        #PRIORIDAD Nº10: Aumentar más las defensas
+        #PRIORIDAD Nº8: Aumentar más las defensas
         if shipyard is not None and shipyard['level'] >= 1:
             if light_lasers is not None and light_lasers['cantidad'] < 10:
                 target = light_lasers
@@ -246,7 +244,7 @@ class StrategyBasic(Strategy, StrategyAbstract):
                     print("Fecha de finalización de la cola del hangar " + end_date.strftime('%Y-%m-%d %H:%M:%S'))
                 return False
 
-        #PRIORIDAD Nº11: Aumentar las investigaciones para poder construir láseres grandes y las de defensa, militar y blindaje
+        #PRIORIDAD Nº9: Aumentar las investigaciones para poder construir láseres grandes y las de defensa, militar y blindaje
         if research_lab is not None and research_lab['level'] < 6:   #Ve preparando poder meter la tecnología de defensa más adelante
             target = research_lab
             self._build_target(target, buildings_resources_manager, resources_manager, session)
@@ -273,7 +271,7 @@ class StrategyBasic(Strategy, StrategyAbstract):
                 self._research_technology(target, resources_manager, buildings_resources_manager, research_manager, session)
                 return False
 
-        #PRIORIDAD Nº12: Boostear la producción de recursos
+        #PRIORIDAD Nº10: Boostear la producción de recursos
         if robot_factory is not None and robot_factory['level'] < 6:
             target = robot_factory
             self._build_target(target, buildings_resources_manager, resources_manager, session)
@@ -291,8 +289,8 @@ class StrategyBasic(Strategy, StrategyAbstract):
             self._build_target(target, buildings_resources_manager, resources_manager, session)
             return False
         
-        #PRIORIDAD Nº13: Boostear puntos
-        if fusion_reactor is not None and fusion_reactor['level'] < 4:
+        #PRIORIDAD Nº11: Boostear puntos
+        if fusion_reactor is not None and fusion_reactor['level'] < 5:
             target = fusion_reactor
             self._build_target(target, buildings_resources_manager, resources_manager, session)
             return False
@@ -320,7 +318,7 @@ class StrategyBasic(Strategy, StrategyAbstract):
                 self._research_technology(target, resources_manager, buildings_resources_manager, research_manager, session)
                 return False
 
-        #PRIORIDAD Nº14: Aumentar más las defensas
+        #PRIORIDAD Nº12: Aumentar más las defensas
         if shipyard is not None and shipyard['level'] >= 1:
             if small_shield_dome is not None and small_shield_dome['cantidad'] < 1:
                 target = small_shield_dome
@@ -339,7 +337,7 @@ class StrategyBasic(Strategy, StrategyAbstract):
                     print("Fecha de finalización de la cola del hangar " + end_date.strftime('%Y-%m-%d %H:%M:%S'))
                 return False
             
-        #PRIORIDAD Nº15: Construir naves
+        #PRIORIDAD Nº13: Construir naves
         if shipyard is not None and shipyard['level'] >= 3:
             if light_fighters is not None and light_fighters['cantidad'] < 20:
                 target = light_fighters
@@ -358,7 +356,7 @@ class StrategyBasic(Strategy, StrategyAbstract):
                     print("Fecha de finalización de la cola del hangar " + end_date.strftime('%Y-%m-%d %H:%M:%S'))
                 return False
 
-        #PRIORIDAD Nº16: Aumentar la velocidad de producción de naves y defensas
+        #PRIORIDAD Nº14: Aumentar la velocidad de producción de naves y defensas
         if shipyard is not None and shipyard['level'] < 7:
             if defenses_manager.isConstructionInProgress() is True:
                 print("Hay una cola pendiente en el hangar, no se puede mejorar el hangar ahora")
@@ -370,7 +368,7 @@ class StrategyBasic(Strategy, StrategyAbstract):
             self._build_target(target, buildings_resources_manager, resources_manager, session)
             return False
         
-        #PRIORIDAD Nº17: Aumenta la producción de recursos.    
+        #PRIORIDAD Nº15: Aumenta la producción de recursos.    
         if metal_mine is not None and metal_mine['level'] < 18:
             target = metal_mine
             self._build_target(target, buildings_resources_manager, resources_manager, session)
@@ -384,7 +382,7 @@ class StrategyBasic(Strategy, StrategyAbstract):
             self._build_target(target, buildings_resources_manager, resources_manager, session)
             return False
 
-        #PRIORIDAD Nº18: Investiga lo necesario para desbloquear los cruceros, los cañones gauss y los cañones iónicos.
+        #PRIORIDAD Nº16: Investiga lo necesario para desbloquear los cruceros, los cañones gauss y los cañones iónicos.
         if researches is not None:
             if impulse_drive is not None and impulse_drive['level'] < 4:
                 target = impulse_drive
@@ -399,7 +397,7 @@ class StrategyBasic(Strategy, StrategyAbstract):
                 self._research_technology(target, resources_manager, buildings_resources_manager, research_manager, session)
                 return False
         
-        #PRIORIDAD Nº19: Aumenta la cantidad de defensas
+        #PRIORIDAD Nº17: Aumenta la cantidad de defensas
         if shipyard is not None and shipyard['level'] >= 6:
             if heavy_lasers is not None and heavy_lasers['cantidad'] < 20:
                 target = heavy_lasers
@@ -426,12 +424,27 @@ class StrategyBasic(Strategy, StrategyAbstract):
                     print("Fecha de finalización de la cola del hangar " + end_date.strftime('%Y-%m-%d %H:%M:%S'))
                 return False
         
-        #PRIORIDAD Nº20: Deja el laboratorio al menos al 7 para poder investigar la tecnología de hiperespacio y el propulsor hiperespacial
+        #PRIORIDAD Nº18: Deja el laboratorio al menos al 7 para poder investigar la tecnología de hiperespacio y el propulsor hiperespacial
         if research_lab is not None and research_lab['level'] < 7:
             target = research_lab
             self._build_target(target, buildings_resources_manager, resources_manager, session)
             return False
         
+        #Contruye defensas contra misiles interplanetarios
+        if silo is not None and silo['level'] < 2:
+            target = silo
+            self._build_target(target, buildings_resources_manager, resources_manager, session)
+            return False
+        if silo is not None and silo['level'] >= 2:
+            if antiballistic_missiles is not None and antiballistic_missiles['cantidad'] < 2:
+                target = antiballistic_missiles
+                quantity = 1
+                self._build_defense(session, resources_manager, target, cantidad=quantity)
+                end_date = defenses_manager.getBuildingDateToEndConstruction()
+                if end_date:
+                    print("Fecha de finalización de la cola del hangar " + end_date.strftime('%Y-%m-%d %H:%M:%S'))
+                return False
+
         print(">>>> Estrategia básica completada <<<<")
         return True
 

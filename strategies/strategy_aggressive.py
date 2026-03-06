@@ -51,11 +51,13 @@ class StrategyAggressive(Strategy, StrategyAbstract):
         small_shield_dome = defenses_manager.getSmallShieldDome()
         gauss_cannons = defenses_manager.getGaussCannons()
         ion_cannons = defenses_manager.getIonCannons()
+        large_shield_dome = defenses_manager.getLargeShieldDome()
 
         #RECUPERA INFO NAVES:
         light_fighters = shipyard_manager.getLightFighters()
         heavy_fighters = shipyard_manager.getHeavyFighters()
         cruisers = shipyard_manager.getCruisers()
+        bombers = shipyard_manager.getBombers()
 
         #PASO 1: Aumenta la cantidad de cruceros y cazadores ligeros:
         if shipyard is not None and shipyard['level'] >= 1:
@@ -113,6 +115,47 @@ class StrategyAggressive(Strategy, StrategyAbstract):
             if plasma_technology is not None and plasma_technology['level'] < 5:
                 target = plasma_technology
                 self._research_technology(target, resources_manager, buildings_resources_manager, research_manager, session)
+                return False
+            #Sube el espionaje al 7 para taparte un poco (con el premium puede tener +2 de nivel de espionaje)
+            if espionage_technology is not None and espionage_technology['level'] < 7:
+                target = espionage_technology
+                self._research_technology(target, resources_manager, buildings_resources_manager, research_manager, session)
+                return False
+        
+        #Ya puede construir cúpulas grandes de protección (Hangar lvl 6 (tiene 7), defensa lvl 6 (tiene 7))
+        if shipyard is not None and shipyard['level'] >= 6:
+            if  large_shield_dome is not None and large_shield_dome['cantidad'] < 1:
+                target = large_shield_dome
+                quantity = 1
+                self._build_defense(session, resources_manager, target, cantidad=quantity)
+                end_date = defenses_manager.getBuildingDateToEndConstruction()
+                if end_date:
+                    print("Fecha de finalización de la cola del hangar " + end_date.strftime('%Y-%m-%d %H:%M:%S'))
+                return False
+
+        #Investiga para poder construir bombarderos (Hangar 8, impulso lvl 6, plasma lvl 5) (falta subir impulso al 6 (está al 4) y Subir el hangar al 8)
+        if shipyard is not None and shipyard['level'] < 8:
+            target = shipyard
+            self._build_target(target, buildings_resources_manager, resources_manager, session)
+            return False
+        if researches is not None:
+            if impulse_drive is not None and impulse_drive['level'] < 6:
+                target = impulse_drive
+                self._research_technology(target, resources_manager, buildings_resources_manager, research_manager, session)
+                return False
+            if plasma_technology is not None and plasma_technology['level'] < 5:
+                target = plasma_technology
+                self._research_technology(target, resources_manager, buildings_resources_manager, research_manager, session)
+                return False
+        #Con esto deberían estar los bombarderos desbloqueados
+        if shipyard is not None and shipyard['level'] >= 1:
+            if bombers is not None and bombers['cantidad'] < 2:
+                target = bombers
+                quantity = 1
+                self._build_ship(session, resources_manager, target, cantidad=quantity)
+                end_date = shipyard_manager.getBuildingDateToEndConstruction()
+                if end_date:
+                    print("Fecha de finalización de la cola del hangar " + end_date.strftime('%Y-%m-%d %H:%M:%S'))
                 return False
 
         print(">>>> Estrategia agresiva completada <<<<")

@@ -49,17 +49,18 @@ class StrategyNormal(Strategy, StrategyAbstract):
         rocket_launchers = defenses_manager.getRocketLaunchers()
         light_lasers = defenses_manager.getLightLasers()
         heavy_lasers = defenses_manager.getHeavyLasers()
-        small_shield_dome = defenses_manager.getSmallShieldDome()
         gauss_cannons = defenses_manager.getGaussCannons()
         ion_cannons = defenses_manager.getIonCannons()
-        cruisers = shipyard_manager.getCruisers()
+        small_shield_dome = defenses_manager.getSmallShieldDome()
+        large_shield_dome = defenses_manager.getLargeShieldDome()
 
         #RECUPERA INFO NAVES:
         light_fighters = shipyard_manager.getLightFighters()
         heavy_fighters = shipyard_manager.getHeavyFighters()
+        cruisers = shipyard_manager.getCruisers()
 
         #PASO 1: Aumenta la cantidad de cruceros y cazadores ligeros:
-        if shipyard is not None and shipyard['level'] >= 1:
+        if shipyard is not None and shipyard['level'] >= 5:
             if light_fighters is not None and light_fighters['cantidad'] < 30:
                 target = light_fighters
                 quantity = 2
@@ -114,6 +115,49 @@ class StrategyNormal(Strategy, StrategyAbstract):
             if armour_technology is not None and armour_technology['level'] < 7:
                 target = armour_technology
                 self._research_technology(target, resources_manager, buildings_resources_manager, research_manager, session)
+                return False
+            #Sube el espionaje al 7 para taparte un poco (con el premium puede tener +2 de nivel de espionaje)
+            if espionage_technology is not None and espionage_technology['level'] < 7:
+                target = espionage_technology
+                self._research_technology(target, resources_manager, buildings_resources_manager, research_manager, session)
+                return False
+
+        #Ya puede construir cúpulas grandes de protección (Hangar lvl 6 (tiene 7), defensa lvl 6 (tiene 7))
+        if shipyard is not None and shipyard['level'] >= 6:
+            if  large_shield_dome is not None and large_shield_dome['cantidad'] < 1:
+                target = large_shield_dome
+                quantity = 1
+                self._build_defense(session, resources_manager, target, cantidad=quantity)
+                end_date = defenses_manager.getBuildingDateToEndConstruction()
+                if end_date:
+                    print("Fecha de finalización de la cola del hangar " + end_date.strftime('%Y-%m-%d %H:%M:%S'))
+                return False
+        
+        #Ya que has llegado hasta aquí, subamos el nivel de los ataques.
+        if shipyard is not None and shipyard['level'] >= 5:
+            if light_fighters is not None and light_fighters['cantidad'] < 50:
+                target = light_fighters
+                quantity = 2
+                self._build_ship(session, resources_manager, target, cantidad=quantity)
+                end_date = shipyard_manager.getBuildingDateToEndConstruction()
+                if end_date:
+                    print("Fecha de finalización de la cola del hangar " + end_date.strftime('%Y-%m-%d %H:%M:%S'))
+                return False
+            if heavy_fighters is not None and heavy_fighters['cantidad'] < 50:
+                target = heavy_fighters
+                quantity = 1
+                self._build_ship(session, resources_manager, target, cantidad=quantity)
+                end_date = shipyard_manager.getBuildingDateToEndConstruction()
+                if end_date:
+                    print("Fecha de finalización de la cola del hangar " + end_date.strftime('%Y-%m-%d %H:%M:%S'))
+                return False
+            if cruisers is not None and cruisers['cantidad'] < 20:
+                target = cruisers
+                quantity = 1
+                self._build_ship(session, resources_manager, target, cantidad=quantity)
+                end_date = shipyard_manager.getBuildingDateToEndConstruction()
+                if end_date:
+                    print("Fecha de finalización de la cola del hangar " + end_date.strftime('%Y-%m-%d %H:%M:%S'))
                 return False
 
         print(">>>> Estrategia normal completada <<<<")
