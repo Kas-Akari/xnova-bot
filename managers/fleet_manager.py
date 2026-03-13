@@ -82,6 +82,12 @@ class FleetManager():
                 return int(ship["cantidad"])
         return 0
     
+    def getBombersQuantity(self) -> int:
+        for ship in self.shipsAvailable:
+            if ship["name"] == "Bombardero":
+                return int(ship["cantidad"])
+        return 0
+    
     def sendRandomFleetToAttack(self, session) -> None:
         #Selecciona un planeta válido para atacar
         last_user = self.memory.get('last_attacked_user', None)

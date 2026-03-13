@@ -27,8 +27,10 @@ class Bot:
 
 if __name__ == "__main__":
     #Cada archivo Python tiene una variable interna llamada __name__
-    #Si ejecutas el archivo directamente (por ejemplo, python bot.py akari), entonces __name__ toma el valor "__main__"
-    #Si importas el archivo desde otro script (import bot_login), entonces __name__ es el nombre real del archivo (bot_login)
+    #Si ejecutas el archivo directamente (por ejemplo, python bot.py akari),
+    #entonces __name__ toma el valor "__main__".
+    #Si importas el archivo desde otro script (import bot_login),
+    #entonces __name__ es el nombre real del archivo (bot_login).
     print(f"\n====================================================================\nBot ejecutado a las {datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
     if len(sys.argv) < 2:
         print("Proporciona el nombre de usuario en minúsculas como argumento al ejecutar el bot. Por ej: python bot.py akari")

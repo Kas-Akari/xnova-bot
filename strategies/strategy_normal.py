@@ -13,8 +13,11 @@ from managers.fleet_manager import FleetManager
 from constants import BASE_URL
 
 class StrategyNormal(Strategy, StrategyAbstract):
-    def decide_and_build(self, session, resources_manager: ResourcesManager, buildings_resources_manager: BuildingsResourcesManager, facilities_manager: FacilitiesManager, research_manager: ResearchManager,defenses_manager: DefensesManager, shipyard_manager: ShipyardManager) -> bool:
-#INFO DE EDIFICIOS
+    def decide_and_build(self, session, resources_manager: ResourcesManager,
+                         buildings_resources_manager: BuildingsResourcesManager, facilities_manager: FacilitiesManager,
+                         research_manager: ResearchManager,defenses_manager: DefensesManager,
+                         shipyard_manager: ShipyardManager) -> bool:
+        #INFO DE EDIFICIOS
         metal_mine = buildings_resources_manager.getMetalMine()
         crystal_mine = buildings_resources_manager.getCrystalMine()
         deuterium_synthesizer = buildings_resources_manager.getDeuteriumSynthesizer()

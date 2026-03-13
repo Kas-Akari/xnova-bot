@@ -4,7 +4,8 @@ from managers.buildings_resources_manager import BuildingsResourcesManager
 from constants import BASE_URL
 
 class Strategy():
-    def _build_target(self,target, buildings_resources_manager: BuildingsResourcesManager, resources_manager: ResourcesManager, session) -> None:
+    def _build_target(self,target, buildings_resources_manager: BuildingsResourcesManager,
+                      resources_manager: ResourcesManager, session) -> None:
         if (resources_manager.get_metal() >= target['metal_price'] and
             resources_manager.get_crystal() >= target['crystal_price'] and
             target['url_mejorar']):

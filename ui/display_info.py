@@ -1,4 +1,6 @@
-def display_info(resources_manager, buildings_resources_manager, facilities_manager, research_manager, defenses_manager, shipyard_manager):
+def display_info(resources_manager, buildings_resources_manager,
+                 facilities_manager, research_manager,
+                 defenses_manager, shipyard_manager):
     show_resources(resources_manager)
     show_buildings(buildings_resources_manager.getResourcesBuildings(), facilities_manager.getFacilities())
     show_researches(research_manager.getResearches())

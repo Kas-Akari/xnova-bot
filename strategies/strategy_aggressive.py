@@ -12,7 +12,10 @@ from managers.fleet_manager import FleetManager
 from constants import BASE_URL
 
 class StrategyAggressive(Strategy, StrategyAbstract):
-    def decide_and_build(self, session, resources_manager: ResourcesManager, buildings_resources_manager: BuildingsResourcesManager, facilities_manager: FacilitiesManager, research_manager: ResearchManager,defenses_manager: DefensesManager, shipyard_manager: ShipyardManager) -> bool:
+    def decide_and_build(self, session, resources_manager: ResourcesManager,
+                         buildings_resources_manager: BuildingsResourcesManager, facilities_manager: FacilitiesManager,
+                         research_manager: ResearchManager,defenses_manager: DefensesManager,
+                         shipyard_manager: ShipyardManager) -> bool:
         #INFO DE EDIFICIOS
         metal_mine = buildings_resources_manager.getMetalMine()
         crystal_mine = buildings_resources_manager.getCrystalMine()
@@ -149,6 +152,14 @@ class StrategyAggressive(Strategy, StrategyAbstract):
                 return False
         #Con esto deberían estar los bombarderos desbloqueados
         if shipyard is not None and shipyard['level'] >= 1:
+            if light_fighters is not None and light_fighters['cantidad'] < 100:
+                target = light_fighters
+                quantity = 2
+                self._build_ship(session, resources_manager, target, cantidad=quantity)
+                end_date = shipyard_manager.getBuildingDateToEndConstruction()
+                if end_date:
+                    print("Fecha de finalización de la cola del hangar " + end_date.strftime('%Y-%m-%d %H:%M:%S'))
+                return False
             if bombers is not None and bombers['cantidad'] < 2:
                 target = bombers
                 quantity = 1
@@ -162,8 +173,8 @@ class StrategyAggressive(Strategy, StrategyAbstract):
         return True
 
     def decide_and_attack(self, session, fleet_manager: FleetManager) -> None:
-        minimum_cruisers_to_attack = 10
-        probability_of_attack = 9 #%
+        minimum_bombers_to_attack = 2
+        probability_of_attack = 8 #%
 
         fleet_manager.checkAvailableShips(session)
         available_ships = fleet_manager.getShipsAvailable()
@@ -173,8 +184,8 @@ class StrategyAggressive(Strategy, StrategyAbstract):
         print("")
         attack_dice = int(random.random() * 100)
         if attack_dice > 100 - probability_of_attack:
-            if (fleet_manager.getCruisersQuantity() >= minimum_cruisers_to_attack):
+            if (fleet_manager.getBombersQuantity() >= minimum_bombers_to_attack):
                 fleet_manager.sendRandomFleetToAttack(session)
             else:
-                print("Intenté atacar, pero sólo tengo " + str(fleet_manager.getCruisersQuantity()) + " cruceros, y necesito por lo menos " + str(minimum_cruisers_to_attack) + " para atacar")
+                print("Intenté atacar, pero sólo tengo " + str(fleet_manager.getBombersQuantity()) + " bombarderos, y necesito por lo menos " + str(minimum_bombers_to_attack) + " para atacar")
                 print("")
