@@ -100,4 +100,4 @@ class ResourcesManager():
 
     def _parse_capacity(self, text: str) -> int:
         """Convierte de notación k a int (140k = 140000)."""
-        return int(text[:-1]) * 1000    #Coge todo menos la última letra (la k), multiplícalo por 1000 y devuélvelo como int
+        return int(text[:-1].replace('.', '')) * 1000    #Coge todo menos la última letra (la k), multiplícalo por 1000 y devuélvelo como int
