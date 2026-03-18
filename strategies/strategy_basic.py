@@ -40,8 +40,8 @@
 #       - Cúpula pequeña de protección: 1                       #
 # Naves:                                                        #
 #       - Nave pequeña de carga:        0                       #
-#       - Cazador ligero:               20                      #
-#       - Cazador pesado:               12                      #
+#       - Cazador ligero:               0                       #
+#       - Cazador pesado:               0                       #
 #       - Crucero:                      0                       #
 #       - Colonizador:                  0                       #
 #       - Sonda de espionaje:           0                       #
@@ -320,26 +320,7 @@ class StrategyBasic(Strategy, StrategyAbstract):
                     print("Fecha de finalización de la cola del hangar " + end_date.strftime('%Y-%m-%d %H:%M:%S'))
                 return False
             
-        #PRIORIDAD Nº12: Construir naves
-        if shipyard is not None and shipyard['level'] >= 3:
-            if light_fighters is not None and light_fighters['cantidad'] < 20:
-                target = light_fighters
-                quantity = 2
-                self._build_ship(session, resources_manager, target, cantidad=quantity)
-                end_date = shipyard_manager.getBuildingDateToEndConstruction()
-                if end_date:
-                    print("Fecha de finalización de la cola del hangar " + end_date.strftime('%Y-%m-%d %H:%M:%S'))
-                return False
-            if heavy_fighters is not None and heavy_fighters['cantidad'] < 12:
-                target = heavy_fighters
-                quantity = 1
-                self._build_ship(session, resources_manager, target, cantidad=quantity)
-                end_date = shipyard_manager.getBuildingDateToEndConstruction()
-                if end_date:
-                    print("Fecha de finalización de la cola del hangar " + end_date.strftime('%Y-%m-%d %H:%M:%S'))
-                return False
-
-        #PRIORIDAD Nº13: Aumentar la velocidad de producción de naves y defensas
+        #PRIORIDAD Nº12: Aumentar la velocidad de producción de naves y defensas
         if shipyard is not None and shipyard['level'] < 7:
             if defenses_manager.isConstructionInProgress() is True:
                 print("Hay una cola pendiente en el hangar, no se puede mejorar el hangar ahora")
@@ -351,7 +332,7 @@ class StrategyBasic(Strategy, StrategyAbstract):
             self._build_target(target, buildings_resources_manager, resources_manager, session)
             return False
 
-        #PRIORIDAD Nº14: Investiga lo necesario para desbloquear los cruceros, los cañones gauss y los cañones iónicos.
+        #PRIORIDAD Nº13: Investiga lo necesario para desbloquear los cruceros, los cañones gauss y los cañones iónicos.
         if researches is not None:
             if impulse_drive is not None and impulse_drive['level'] < 4:
                 target = impulse_drive
@@ -366,7 +347,7 @@ class StrategyBasic(Strategy, StrategyAbstract):
                 self._research_technology(target, resources_manager, buildings_resources_manager, research_manager, session)
                 return False
         
-        #PRIORIDAD Nº15: Aumenta la cantidad de defensas
+        #PRIORIDAD Nº14: Aumenta la cantidad de defensas
         if shipyard is not None and shipyard['level'] >= 6:
             if heavy_lasers is not None and heavy_lasers['cantidad'] < 20:
                 target = heavy_lasers
@@ -393,7 +374,7 @@ class StrategyBasic(Strategy, StrategyAbstract):
                     print("Fecha de finalización de la cola del hangar " + end_date.strftime('%Y-%m-%d %H:%M:%S'))
                 return False
         
-        #PRIORIDAD Nº16: Deja el laboratorio al menos al 7 para poder investigar la tecnología de hiperespacio y el propulsor hiperespacial
+        #PRIORIDAD Nº15: Deja el laboratorio al menos al 7 para poder investigar la tecnología de hiperespacio y el propulsor hiperespacial
         if research_lab is not None and research_lab['level'] < 7:
             target = research_lab
             self._build_target(target, buildings_resources_manager, resources_manager, session)
