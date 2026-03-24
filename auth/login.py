@@ -16,7 +16,11 @@ def login(session, user_key: str) -> requests.Response | None:
     else:
         return None
 
-
-
-
+def logout(session) -> None:
+    logout_url = BASE_URL + 'game.php?page=logout'
+    response = session.post(logout_url)
+    if 'Página inicial de' in response.text:
+        print("Deslogueado ")
+    else:
+        print("Hubo un problema en el deslogueo")
 

@@ -5,7 +5,7 @@ import sys      #Para procesar los argumentos de entrada
 from config.bot_config import USER_CONFIG
 from update_info import update_info
 from ui.display_info import display_info
-from auth.login import login
+from auth.login import login, logout
 from managers.resources_manager import ResourcesManager
 from managers.buildings_resources_manager import BuildingsResourcesManager
 from managers.buildings_facilities_manager import FacilitiesManager
@@ -23,6 +23,9 @@ class Bot:
 
     def doLogin(self, username):
         return login(self.session, username)
+    
+    def doLogout(self):
+        return logout(self.session)
     
 
 if __name__ == "__main__":
@@ -64,6 +67,9 @@ if __name__ == "__main__":
             #Si ya completó todo lo de su estrategia específica: 
                 strategy_long_term = StrategyLongTerm()
                 strategy_long_term.decide_and_build(bot.session, resources_manager, buildings_resources_manager, facilities_manager, research_manager, defenses_manager, shipyard_manager)
+        
+        bot.doLogout()
+        
 
     else:
         print("Login fallido o usuario/contraseña incorrectos")

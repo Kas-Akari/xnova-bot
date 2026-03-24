@@ -92,6 +92,7 @@ class FleetManager():
         #Selecciona un planeta válido para atacar
         last_user = self.memory.get('last_attacked_user', None)
         valid_planets = [p for p in self.known_planets if p['user'] != last_user]
+        print("Lista de planetas válidos para atacar: " + str(valid_planets) + ". Descartando los del último usuario atacado: " + str(last_user))
         if not valid_planets:
             print("No hay planetas válidos para atacar (todos ya atacados o filtrados por 'TheBot')")
             return
