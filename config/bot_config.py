@@ -13,6 +13,6 @@ USER_CONFIG = {
         'strategy': 'normal'
     },
     'unjusthope': {
-        'strategy': 'normal'
+        'strategy': 'aggressive'
     }
 }

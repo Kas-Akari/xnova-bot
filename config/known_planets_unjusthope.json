@@ -1,1 +1,7 @@
-[]
+[
+    {"galaxy": 1, "system": 1, "planet": 6, "user": "Sai"},
+    {"galaxy": 2, "system": 1, "planet": 1, "user": "Hoven"},
+    {"galaxy": 2, "system": 1, "planet": 5, "user": "Hoven"},
+    {"galaxy": 2, "system": 2, "planet": 15, "user": "Hoven"},
+    {"galaxy": 2, "system": 99, "planet": 9, "user": "Hoven"}
+]

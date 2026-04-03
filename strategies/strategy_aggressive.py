@@ -160,7 +160,15 @@ class StrategyAggressive(Strategy, StrategyAbstract):
                 if end_date:
                     print("Fecha de finalización de la cola del hangar " + end_date.strftime('%Y-%m-%d %H:%M:%S'))
                 return False
-            if bombers is not None and bombers['cantidad'] < 2:
+            if heavy_fighters is not None and heavy_fighters['cantidad'] < 100:
+                target = heavy_fighters
+                quantity = 1
+                self._build_ship(session, resources_manager, target, cantidad=quantity)
+                end_date = shipyard_manager.getBuildingDateToEndConstruction()
+                if end_date:
+                    print("Fecha de finalización de la cola del hangar " + end_date.strftime('%Y-%m-%d %H:%M:%S'))
+                return False
+            if bombers is not None and bombers['cantidad'] < 10:
                 target = bombers
                 quantity = 1
                 self._build_ship(session, resources_manager, target, cantidad=quantity)
@@ -173,7 +181,7 @@ class StrategyAggressive(Strategy, StrategyAbstract):
         return True
 
     def decide_and_attack(self, session, fleet_manager: FleetManager) -> None:
-        minimum_bombers_to_attack = 2
+        minimum_bombers_to_attack = 4
         probability_of_attack = 8 #%
 
         fleet_manager.checkAvailableShips(session)

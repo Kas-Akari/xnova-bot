@@ -4,5 +4,16 @@
     {"galaxy": 1, "system": 1, "planet": 6, "user": "Sai"},
     {"galaxy": 1, "system": 1, "planet": 8, "user": "Hoven"},
     {"galaxy": 1, "system": 1, "planet": 10, "user": "AkariTheBot"},
-    {"galaxy": 1, "system": 1, "planet": 12, "user": "WheatleyTheBot"}
+    {"galaxy": 1, "system": 1, "planet": 12, "user": "WheatleyTheBot"},
+    {"galaxy": 1, "system": 2, "planet": 1, "user": "Sai"},
+    {"galaxy": 1, "system": 2, "planet": 4, "user": "GlaDOSTheBot"},
+    {"galaxy": 1, "system": 2, "planet": 6, "user": "AtlasTheBot"},
+    {"galaxy": 1, "system": 2, "planet": 10, "user": "PBodyTheBot"},
+    {"galaxy": 1, "system": 2, "planet": 8, "user": "Sai"},
+    {"galaxy": 1, "system": 2, "planet": 15, "user": "Sai"},
+    {"galaxy": 1, "system": 3, "planet": 4, "user": "Sai"},
+    {"galaxy": 1, "system": 3, "planet": 12, "user": "Kas"},
+    {"galaxy": 1, "system": 3, "planet": 14, "user": "Kas"},
+    {"galaxy": 1, "system": 3, "planet": 15, "user": "Kas"},
+    {"galaxy": 1, "system": 4, "planet": 1, "user": "Kas"}
 ]
