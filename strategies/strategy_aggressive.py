@@ -135,6 +135,30 @@ class StrategyAggressive(Strategy, StrategyAbstract):
                 if end_date:
                     print("Fecha de finalización de la cola del hangar " + end_date.strftime('%Y-%m-%d %H:%M:%S'))
                 return False
+            if heavy_lasers is not None and heavy_lasers['cantidad'] < 50:
+                target = heavy_lasers
+                quantity = 1
+                self._build_defense(session, resources_manager, target, cantidad=quantity)
+                end_date = defenses_manager.getBuildingDateToEndConstruction()
+                if end_date:
+                    print("Fecha de finalización de la cola del hangar " + end_date.strftime('%Y-%m-%d %H:%M:%S'))
+                return False
+            if gauss_cannons is not None and gauss_cannons['cantidad'] < 20:
+                target = gauss_cannons
+                quantity = 1
+                self._build_defense(session, resources_manager, target, cantidad=quantity)
+                end_date = defenses_manager.getBuildingDateToEndConstruction()
+                if end_date:
+                    print("Fecha de finalización de la cola del hangar " + end_date.strftime('%Y-%m-%d %H:%M:%S'))
+                return False
+            if ion_cannons is not None and ion_cannons['cantidad'] < 10:
+                target = ion_cannons
+                quantity = 1
+                self._build_defense(session, resources_manager, target, cantidad=quantity)
+                end_date = defenses_manager.getBuildingDateToEndConstruction()
+                if end_date:
+                    print("Fecha de finalización de la cola del hangar " + end_date.strftime('%Y-%m-%d %H:%M:%S'))
+                return False
 
         #Investiga para poder construir bombarderos (Hangar 8, impulso lvl 6, plasma lvl 5) (falta subir impulso al 6 (está al 4) y Subir el hangar al 8)
         if shipyard is not None and shipyard['level'] < 8:
@@ -154,7 +178,7 @@ class StrategyAggressive(Strategy, StrategyAbstract):
         if shipyard is not None and shipyard['level'] >= 1:
             if light_fighters is not None and light_fighters['cantidad'] < 100:
                 target = light_fighters
-                quantity = 2
+                quantity = 4
                 self._build_ship(session, resources_manager, target, cantidad=quantity)
                 end_date = shipyard_manager.getBuildingDateToEndConstruction()
                 if end_date:
@@ -162,13 +186,21 @@ class StrategyAggressive(Strategy, StrategyAbstract):
                 return False
             if heavy_fighters is not None and heavy_fighters['cantidad'] < 100:
                 target = heavy_fighters
+                quantity = 2
+                self._build_ship(session, resources_manager, target, cantidad=quantity)
+                end_date = shipyard_manager.getBuildingDateToEndConstruction()
+                if end_date:
+                    print("Fecha de finalización de la cola del hangar " + end_date.strftime('%Y-%m-%d %H:%M:%S'))
+                return False
+            if cruisers is not None and cruisers['cantidad'] < 50:
+                target = cruisers
                 quantity = 1
                 self._build_ship(session, resources_manager, target, cantidad=quantity)
                 end_date = shipyard_manager.getBuildingDateToEndConstruction()
                 if end_date:
                     print("Fecha de finalización de la cola del hangar " + end_date.strftime('%Y-%m-%d %H:%M:%S'))
                 return False
-            if bombers is not None and bombers['cantidad'] < 10:
+            if bombers is not None and bombers['cantidad'] < 20:
                 target = bombers
                 quantity = 1
                 self._build_ship(session, resources_manager, target, cantidad=quantity)
@@ -181,7 +213,7 @@ class StrategyAggressive(Strategy, StrategyAbstract):
         return True
 
     def decide_and_attack(self, session, fleet_manager: FleetManager) -> None:
-        minimum_bombers_to_attack = 4
+        minimum_bombers_to_attack = 10
         probability_of_attack = 8 #%
 
         fleet_manager.checkAvailableShips(session)

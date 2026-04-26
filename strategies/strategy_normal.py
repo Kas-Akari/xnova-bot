@@ -135,7 +135,31 @@ class StrategyNormal(Strategy, StrategyAbstract):
                 if end_date:
                     print("Fecha de finalización de la cola del hangar " + end_date.strftime('%Y-%m-%d %H:%M:%S'))
                 return False
-        
+            if heavy_lasers is not None and heavy_lasers['cantidad'] < 50:
+                target = heavy_lasers
+                quantity = 1
+                self._build_defense(session, resources_manager, target, cantidad=quantity)
+                end_date = defenses_manager.getBuildingDateToEndConstruction()
+                if end_date:
+                    print("Fecha de finalización de la cola del hangar " + end_date.strftime('%Y-%m-%d %H:%M:%S'))
+                return False
+            if gauss_cannons is not None and gauss_cannons['cantidad'] < 20:
+                target = gauss_cannons
+                quantity = 1
+                self._build_defense(session, resources_manager, target, cantidad=quantity)
+                end_date = defenses_manager.getBuildingDateToEndConstruction()
+                if end_date:
+                    print("Fecha de finalización de la cola del hangar " + end_date.strftime('%Y-%m-%d %H:%M:%S'))
+                return False
+            if ion_cannons is not None and ion_cannons['cantidad'] < 10:
+                target = ion_cannons
+                quantity = 1
+                self._build_defense(session, resources_manager, target, cantidad=quantity)
+                end_date = defenses_manager.getBuildingDateToEndConstruction()
+                if end_date:
+                    print("Fecha de finalización de la cola del hangar " + end_date.strftime('%Y-%m-%d %H:%M:%S'))
+                return False
+
         #Ya que has llegado hasta aquí, subamos el nivel de los ataques.
         if shipyard is not None and shipyard['level'] >= 5:
             if light_fighters is not None and light_fighters['cantidad'] < 50:
@@ -168,7 +192,7 @@ class StrategyNormal(Strategy, StrategyAbstract):
         
 
     def decide_and_attack(self, session, fleet_manager: FleetManager) -> None:
-        minimum_cruisers_to_attack = 6
+        minimum_cruisers_to_attack = 20
         probability_of_attack = 2   #%
 
         fleet_manager.checkAvailableShips(session)
